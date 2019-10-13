@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Word Guess Game</title>
+  <link type="text/css" rel="stylesheet" href=assets/css/style.css>
+  <script src=assets/javascript/game.js></script>
+</head>
+
+<body>
+        <img src="assets/images/Richard-Lund-hollywood-sign-at-night.jpg" width= "400" height = "400">
+        <h1>Refresh the Page to Play Again!</h1>
+
+  <script type="text/javascript">
+        let player = confirm(
+            'Guess the Popular Movie! Click OK to Get Started!') 
+        let word = "";
+
+            let words = ['IndianaJones', 'PulpFiction', 'JurassicPark', 'StarWars', 'ForrestGump', 'Titanic', 'Jaws', 'Avatar', 'Inception', 'Scarface', 'Godfather', 'Avengers', 'Aladdin', 'Dracula', 'Gladiator'
+            ]
+            word = words[Math.floor(Math.random() * Math.floor(words.length - 1))].toLowerCase()
+        
+        let panel = Array(word.length).fill(' _ ');
+        let health = 8;
+        let wrongGuesses = [];
+
+        while (panel.indexOf(' _ ') >= 0 && health > 0) {
+
+            if (health < 8) {
+                alert(`   Panel: ${panel} | Wrong guesses: ${wrongGuesses}`)
+            } else alert(`Panel: ${panel}`)
+
+            let guess = prompt('Guess a letter!');
+            let wrong = word.indexOf(guess) < 0;
+            [...word].forEach((l, i) => {
+                if (guess === l) {
+                    panel[i] = l
+                }
+            });
+           
+            if (wrong) {
+                health--;
+                wrongGuesses.push(guess);
+                alert(`Wrong! You have ${health} lives left`);
+            }
+        }
+
+        if (health > 0) alert('Congratulations! You won!');
+        else alert(`Good try! You lost! The word was '${word}'`);
+  </script>
+</body>
+
+</html>
