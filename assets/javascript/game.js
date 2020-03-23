@@ -1,31 +1,54 @@
-let player = confirm('Guess the Popular Movie! Click OK to Get Started!') //true = computer
-let word = "";
+//Generates an Array of movies
+const movie = ['jaws', 'starwars', 'scarface', 'godfather', 'titanic', 'casablanca', 'psycho', 'goodfellas'];
 
-    let words = ['IndianaJones', 'PulpFiction', 'JurassicPark', 'StarWars', 'ForrestGump', 'Titanic', 'Jaws', 'Avatar', 'Inception', 'Scarface', 'Godfather', 'Avengers', 'Aladdin', 'Dracula', 'Gladiator']
-    word = words[Math.floor(Math.random() * Math.floor(words.length - 1))].toLowerCase()
-
-let panel = Array(word.length).fill(' _ ');
-let health = 8;
-let wrongGuesses = [];
-
-while (panel.indexOf(' _ ') >= 0 && health > 0) {
-
-    if (health < 8) {
-        alert(`   Panel: ${panel} | Wrong guesses: ${wrongGuesses}`)
-    } else alert(`Panel: ${panel}`)
-
-    let guess = prompt('Guess a letter!');
-    let wrong = word.indexOf(guess) < 0;
-    [...word].forEach((l, i) => {if (guess === l){panel[i] = l}});
+//Randomly picks from array
+let randNum = Math.floor(Math.random() * movie.length);
+let chosenWord = movie[randNum];
+let correctGuess = [];
+let wrongGuess = [];
+let movieLetter = chosenWord.split("");
 
 
-    if (wrong) {
-        health--;
-        wrongGuesses.push(guess);
-        alert(`Wrong! You have ${health} lives left`);
+//Counter Variables
+let wins = 0;
+let losses = 0;
+let guessesRemaining = 9;
+
+// DOM
+let docMovieWord = document.getElementsByClassName('movieWord');
+let docCorrectGuess = document.getElementsByClassName('correctGuess');
+let docWrongGuess = document.getElementsByClassName('wrongGuess');
+
+
+//Generates underscores according to choosenWord
+let underScore = [];
+let underScoreLength = () => {
+    for(let i = 0; i < chosenWord.length; i++) {
+        underScore.push(' _ ');
+        docMovieWord[0].innerHTML = underScore.join(' ');
     }
-
+    return underScore;
 }
+console.log(choosenWord, underScoreLength());
 
-if (health > 0) alert('Congratulations! You won!');
-else alert(`Good try! You lost! The word was '${word}'`);
+
+//Listens for letter inputs
+document.addEventListener('keypress', (event) => {
+let keyWord = String.fromCharCode(event.keyCode);
+
+let containsLetter = false;
+    for (let i = 0; i < movieLetter.length; i++) {
+        if(movieLetter[i] == keyWord){
+            containsLetter = true;
+            correctGuess.push(keyWord);
+            docMovieWord[0].innerHTML = underScore.join(' ');
+        }
+    }
+    console.log('keyWord', keyWord);
+});
+
+
+
+console.log('correctGuess', correctGuess);
+console.log('wrongGuess', wrongGuess);
+console.log('movieLetter', movieLetter);
